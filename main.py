@@ -2,12 +2,12 @@ import ee
 import folium
 import matplotlib.pyplot as plt
 
-def main():
+def authenticateEE():
     service_account = 'my-service-account@...gserviceaccount.com'
     credentials = ee.ServiceAccountCredentials(service_account, '.private-key.json')
     ee.Initialize(credentials)
 
-
+def graphAQ():
     aqCollection = ee.ImageCollection("COPERNICUS/S5P/NRTI/L3_AER_AI")
 
     roi = ee.Geometry.Point([-93.26, 44.977])
@@ -17,7 +17,6 @@ def main():
 
     filtered_aq = aqCollection.filterBounds(roi).filterDate(start_date, end_date)
     print(filtered_aq.first().select('absorbing_aerosol_index').getInfo())
-
 
     def get_AAI(image):
         return image.select('absorbing_aerosol_index')
@@ -64,7 +63,11 @@ def main():
     plt.tight_layout()
     plt.show()
 
-if __name__ = "__main__":
+def main():
+    authenticateEE()
+    graphAQ()
+
+if __name__ == "__main__":
     main()
 
 
